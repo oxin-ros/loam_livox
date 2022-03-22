@@ -39,7 +39,7 @@
 
 #include <cmath>
 #include <nav_msgs/Odometry.h>
-#include <opencv/cv.h>
+#include <opencv2/opencv.hpp>
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/kdtree/kdtree_flann.h>
 #include <pcl/point_cloud.h>
@@ -173,7 +173,7 @@ class Laser_feature
         for(int i = 0 ; i< m_maximum_input_lidar_pointcloud; i++)
         {
             m_input_lidar_topic_name_vec.push_back(string("laser_points_").append(std::to_string(i)));
-            m_sub_input_laser_cloud_vec.push_back( nh.subscribe<sensor_msgs::PointCloud2>( m_input_lidar_topic_name_vec.back(), 10000, boost::bind( &Laser_feature::laserCloudHandler, this, _1,  m_input_lidar_topic_name_vec.back()) ) );
+            m_sub_input_laser_cloud_vec.push_back( nh.subscribe<sensor_msgs::PointCloud2>( m_input_lidar_topic_name_vec.back(), 10000, boost::bind( &Laser_feature::laserCloudHandler, this, boost::placeholders::_1,  m_input_lidar_topic_name_vec.back()) ) );
             m_map_pointcloud_full_vec_vec[i].resize(m_piecewise_number);
             m_map_pointcloud_surface_vec_vec[i].resize(m_piecewise_number);
             m_map_pointcloud_corner_vec_vec[i].resize(m_piecewise_number);
